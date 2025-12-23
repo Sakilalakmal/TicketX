@@ -9,8 +9,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/api/users/currentuser", (req, res) => {
+  res.send("hy there");
+});
+
 //* start server
 app.listen(PORT, () => {
   console.log(`Auth service running on port http://localhost${PORT}`);
 });
-
