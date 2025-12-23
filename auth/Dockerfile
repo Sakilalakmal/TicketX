@@ -1,4 +1,4 @@
-FROM node:10.22-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . .
 
-CMD [ "nodemon", "src/index.ts" ]
+CMD [ "npm","start" ]
