@@ -1,6 +1,9 @@
 import express, { type Request, type Response } from "express";
 import { body, validationResult } from "express-validator";
 import { RequestValidationError } from "../errors/request-validation-errors.js";
+import { User } from "../models/User.js";
+import { BadRequestError } from "../errors/request-validation-error.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -23,7 +26,35 @@ router.post(
 
     const { email, password } = req.body;
 
-    res.send({ message: "User signed up successfully", data: {} });
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      throw new BadRequestError("Email in already in use");
+    }
+
+    //* create user
+    const user = User.build({
+      email,
+      password,
+    });
+
+    await user.save();
+
+    //* generate jsonweb token
+    const userJwt = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+      },
+      "rfgtrgr5ty5rgrgwtgdgdg"
+    );
+    //* store token in session object
+
+    req.session = {
+      jwt: userJwt,
+    };
+
+    res.status(201).send(user);
   }
 );
 

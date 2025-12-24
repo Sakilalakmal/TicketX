@@ -6,6 +6,7 @@ import { signOutRouter } from "./routes/sign-out.js";
 import { errorHandler } from "./middlewares/error-handle.js";
 import { NotFoundError } from "./errors/not-found-error.js";
 import mongoose from "mongoose";
+import cookieSession from "cookie-session";
 
 //* initalize app
 const app = express();
@@ -13,8 +14,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //* middleware
+app.set("trust proxy", true);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+);
 
 app.use(currentUserRouter);
 app.use(signInRouter);
