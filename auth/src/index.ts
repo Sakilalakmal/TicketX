@@ -1,11 +1,11 @@
 import express from "express";
-import "express-async-errors";
 import { currentUserRouter } from "./routes/current-user.js";
 import { signInRouter } from "./routes/sign-in.js";
 import { signUpRouter } from "./routes/sign-up.js";
 import { signOutRouter } from "./routes/sign-out.js";
 import { errorHandler } from "./middlewares/error-handle.js";
 import { NotFoundError } from "./errors/not-found-error.js";
+import mongoose from "mongoose";
 
 //* initalize app
 const app = express();
@@ -22,13 +22,31 @@ app.use(signUpRouter);
 app.use(signOutRouter);
 
 app.all("/{*splat}", async (req, res, next) => {
-  throw new NotFoundError();
+  next(new NotFoundError());
 });
 
 //* error handler middleware
 app.use(errorHandler);
 
-//* start server
-app.listen(PORT, () => {
-  console.log(`Auth service running on port http://localhost${PORT}`);
-});
+const start = async () => {
+  try {
+    //* connect to mongoDB *//
+    await mongoose
+      .connect("mongodb://auth-mongo-srv:27017/auth-service")
+      .then(() => {
+        console.log("Connected to MongoDB");
+      })
+      .catch((error) => {
+        console.error("Error connecting to MongoDB:", error);
+      });
+
+    //* start server
+    app.listen(PORT, () => {
+      console.log(`Auth service running on port http://localhost${PORT}`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+start();
