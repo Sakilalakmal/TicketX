@@ -1,5 +1,4 @@
 import express, { type Request, type Response } from "express";
-import "express-async-errors";
 import { body, validationResult } from "express-validator";
 import { RequestValidationError } from "../errors/request-validation-errors.js";
 
