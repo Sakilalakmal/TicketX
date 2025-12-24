@@ -37,6 +37,10 @@ app.all("/{*splat}", async (req, res, next) => {
 app.use(errorHandler);
 
 const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY must be defined");
+  }
+
   try {
     //* connect to mongoDB *//
     await mongoose

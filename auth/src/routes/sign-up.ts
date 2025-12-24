@@ -46,7 +46,7 @@ router.post(
         id: user._id,
         email: user.email,
       },
-      "rfgtrgr5ty5rgrgwtgdgdg"
+      process.env.JWT_KEY!
     );
     //* store token in session object
 
