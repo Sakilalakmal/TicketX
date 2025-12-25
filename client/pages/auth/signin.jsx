@@ -1,0 +1,58 @@
+import { useState } from "react";
+import axios from "axios";
+import useRequest from "../../hooks/use-request";
+import Router from "next/router";
+
+export default function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { doRequest, errors } = useRequest({
+    url: "/api/users/signin",
+    method: "post",
+    body: {
+      email,
+      password,
+    },
+    onSuccess: () => Router.push("/"),
+  });
+
+  //* submit handler function
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await doRequest();
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h1>Sign In</h1>
+      <div className="form-group">
+        <label>Email Address</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          required
+          className="form-control"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="form-control"
+        />
+      </div>
+      {errors}
+
+      <button type="submit" className="btn btn-primary">
+        Sign In
+      </button>
+    </form>
+  );
+}
