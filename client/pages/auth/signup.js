@@ -1,14 +1,25 @@
 import { useState } from "react";
+import axios from "axios";
+import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { doRequest, errors } = useRequest({
+    url: "/api/users/signup",
+    method: "post",
+    body: {
+      email,
+      password,
+    },
+    onSuccess: () => Router.push("/"),
+  });
 
   //* submit handler function
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+    await doRequest();
   };
 
   return (
@@ -37,6 +48,8 @@ export default function Signup() {
           className="form-control"
         />
       </div>
+      {errors}
+
       <button type="submit" className="btn btn-primary">
         Sign Up
       </button>
