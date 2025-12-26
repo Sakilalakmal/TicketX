@@ -3,8 +3,8 @@ import { currentUserRouter } from "./routes/current-user.js";
 import { signInRouter } from "./routes/sign-in.js";
 import { signUpRouter } from "./routes/sign-up.js";
 import { signOutRouter } from "./routes/sign-out.js";
-import { errorHandler } from "./middlewares/error-handle.js";
-import { NotFoundError } from "./errors/not-found-error.js";
+import { errorHandler, NotFoundError } from "@sakilalakmal/common";
+
 import cookieSession from "cookie-session";
 
 //* initalize app
