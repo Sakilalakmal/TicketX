@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "del ./build/*",
     "build": "tsc",
-    "pub": "git add . && git commit -m \"release new version\" && git push origin main && npm publish"
+    "pub": "git add . && git commit -m \"release new version\" && git push origin main && npm publish --access public"
   },
   "keywords": [],
   "author": "",
