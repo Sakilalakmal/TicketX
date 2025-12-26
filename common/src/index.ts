@@ -1,3 +1,5 @@
+// export all common modules from a single entry point
+
 export * from "./errors/request-validation-errors.js";
 export * from "./errors/database-connection-error.js";
 export * from "./errors/custom-error.js";

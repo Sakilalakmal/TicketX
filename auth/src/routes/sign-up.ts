@@ -1,10 +1,9 @@
 import express, { type Request, type Response } from "express";
 import { body, validationResult } from "express-validator";
-import { RequestValidationError } from "../errors/request-validation-errors.js";
 import { User } from "../models/User.js";
-import { BadRequestError } from "../errors/request-validation-error.js";
+import { BadRequestError } from "@sakilalakmal/common";
 import jwt from "jsonwebtoken";
-import { validateRequest } from "../middlewares/validate-request.js";
+import { validateRequest } from "@sakilalakmal/common";
 
 const router = express.Router();
 
