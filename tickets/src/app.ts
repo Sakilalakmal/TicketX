@@ -1,7 +1,10 @@
 import express from "express";
-import { errorHandler, NotFoundError } from "@sakilalakmal/common";
-
+import { errorHandler, NotFoundError, currentUser } from "@sakilalakmal/common";
 import cookieSession from "cookie-session";
+import { newTicketRouter } from "./routes/new.js";
+import { showTicketRouter } from "./routes/shows.js";
+import { indexTicketRouter } from "./routes/index.js";
+import { updateTicketRouter } from "./routes/update.js";
 
 //* initalize app
 const app = express();
@@ -16,7 +19,11 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
-
+app.use(currentUser);
+app.use(newTicketRouter);
+app.use(showTicketRouter);
+app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 app.all("/{*splat}", async (req, res, next) => {
   next(new NotFoundError());
 });
